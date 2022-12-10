@@ -22,7 +22,8 @@ for line in f:
 
         if len(directives) != 0:
             move_amt, move_from, move_to = int(directives[0]), int(directives[1]) - 1, int(directives[2]) - 1
-            for i in range(move_amt):
-                stks[move_to].append(stks[move_from].pop(-1))
+            
+            stks[move_to].extend(stks[move_from][-move_amt:])
+            del stks[move_from][-move_amt:]
 
 print(''.join([stk[-1] for stk in stks]))
