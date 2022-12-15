@@ -1,3 +1,5 @@
+# Media type definitions
+
 class File():
     def __init__(self, name, size) -> None:
         self.name = name
@@ -79,7 +81,8 @@ class Directory():
                 size += thing.size()
         
         return size
-        
+
+# Solution starts here
 
 directory = Directory('/', is_root=True)
 ls_called = False
@@ -102,10 +105,13 @@ with open('p7.txt') as f:
             else:
                 directory.open_cwd().add(File(cmd[1], int(cmd[0])))
 
-size = 0
+max_space = 70000000 - 30000000
+min_deletion_size = directory.root_dir.size() - max_space
 
-for d in directory.find_directories():
-    if d.size() <= 100000:
-        size += d.size()
+folder_sizes = [d.size() for d in directory.find_directories()]
+folder_sizes.sort()
 
-print(size)
+for deletion_size in folder_sizes:
+    if deletion_size >= min_deletion_size:
+        print(deletion_size)
+        break
